@@ -17,6 +17,8 @@ public class JdbcContext {
         this.dataSource = dataSource;
     }
 
+
+
     public User JdbcContextWithStatementStrategyForQuery(StatementStrategy statementStrategy) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -92,6 +94,32 @@ public class JdbcContext {
                 }
             }
         }
+    }
+
+    public void update(String sql, String[] params) {
+        StatementStrategy statementStrategy = connection -> {
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement(sql);
+            for(int i = 1; i<=params.length; i++){
+                preparedStatement.setString(i, params[i-1]);
+            }
+            preparedStatement.executeUpdate();
+            return preparedStatement;
+        };
+        JdbcContextWithStatementStrategyForUpdate(statementStrategy);
+    }
+
+
+    public User queryForObject(String sql, String[] params) {
+        StatementStrategy statementStrategy = connection -> {
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement(sql);
+            for(int i = 1; i<=params.length; i++){
+                preparedStatement.setString(i, params[i-1]);
+            }
+            return preparedStatement;
+        };
+        return JdbcContextWithStatementStrategyForQuery(statementStrategy);
     }
 
 }
