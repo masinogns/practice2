@@ -14,9 +14,6 @@ public class GetUserStatementStrategy implements StatementStrategy {
 
     @Override
     public PreparedStatement makeStatement(Connection connection) throws SQLException {
-        PreparedStatement preparedStatement;
-        preparedStatement = connection.prepareStatement("select * from userinfo where id = ?");
-        preparedStatement.setString(1, id);
-        return preparedStatement;
+
     }
 }
