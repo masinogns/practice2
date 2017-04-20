@@ -53,4 +53,52 @@ public class UserDaoTest {
         assertThat(name, is(addUser.getName()));
         assertThat(password, is(addUser.getPassword()));
     }
+
+
+    @Test
+    public void update() throws SQLException, ClassNotFoundException {
+        String id = String.valueOf(new Random().nextInt());
+        String name = "masinogns";
+        String password = "masinogns";
+
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setPassword(password);
+        userDao.add(user);
+
+        String updateName = "rlgnsqor";
+        String updatePassword = "rlgnsqor";
+
+        user.setId(id);
+        user.setName(updateName);
+        user.setPassword(updatePassword);
+        userDao.update(user);
+
+        User updateUser = userDao.get(id);
+
+        assertThat(id, is(updateUser.getId()));
+        assertThat(updateName, is(updateUser.getName()));
+        assertThat(updatePassword, is(updateUser.getPassword()));
+    }
+
+
+    @Test
+    public void delete() throws SQLException, ClassNotFoundException {
+        String id = String.valueOf(new Random().nextInt());
+        String name = "masinogns";
+        String password = "masinogns";
+
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setPassword(password);
+
+        userDao.add(user);
+        userDao.delete(id);
+
+        User deleteUser = userDao.get(id);
+
+        assertThat(deleteUser, nullValue());
+    }
 }
