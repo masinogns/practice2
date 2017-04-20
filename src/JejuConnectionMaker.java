@@ -5,7 +5,7 @@ import java.sql.SQLException;
 /**
  * Created by masinogns on 2017. 4. 20..
  */
-public class JejuUserDao extends UserDao {
+public class JejuConnectionMaker implements ConnectionMaker{
     @Override
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");

@@ -3,10 +3,15 @@ import java.sql.*;
 /**
  * Created by masinogns on 2017. 4. 20..
  */
-public abstract class UserDao {
-    public User get(String id) throws ClassNotFoundException, SQLException {
+public class UserDao {
+    ConnectionMaker connectionMaker;
 
-        Connection connection = getConnection();
+    public UserDao(ConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker;
+    }
+
+    public User get(String id) throws ClassNotFoundException, SQLException {
+        Connection connection = connectionMaker.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement("select * from userinfo where id = ?");
         preparedStatement.setString(1,id);
@@ -27,7 +32,7 @@ public abstract class UserDao {
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection connection = getConnection();
+        Connection connection = connectionMaker.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement("insert into userinfo (id, name, password) VALUES (?,?,?)");
         preparedStatement.setString(1,user.getId());
@@ -40,7 +45,4 @@ public abstract class UserDao {
         connection.close();
 
     }
-
-    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
-
 }
