@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.SQLException;
@@ -10,6 +11,12 @@ import static org.hamcrest.MatcherAssert.*;
  * Created by masinogns on 2017. 4. 20..
  */
 public class UserDaoTest {
+    UserDao userDao;
+
+    @Before
+    public void setup(){
+        userDao = new DaoFactory().getUserDao();
+    }
 
     @Test
     public void get() throws SQLException, ClassNotFoundException {
@@ -17,11 +24,12 @@ public class UserDaoTest {
         String name = "masinogns";
         String password = "masinogns";
 
-        UserDao userDao = new UserDao(new JejuConnectionMaker());
         User getUser = userDao.get(id);
 
         assertThat(id, is(getUser.getId()));
     }
+
+
 
     @Test
     public void add() throws SQLException, ClassNotFoundException {
@@ -34,7 +42,6 @@ public class UserDaoTest {
         user.setName(name);
         user.setPassword(password);
 
-        UserDao userDao = new UserDao(new JejuConnectionMaker());
         userDao.add(user);
         User addUser = userDao.get(id);
 
