@@ -1,17 +1,21 @@
+import javax.sql.DataSource;
 import java.sql.*;
 
 /**
  * Created by masinogns on 2017. 4. 20..
  */
 public class UserDao {
-    ConnectionMaker connectionMaker;
+    DataSource dataSource;
 
-    public UserDao(ConnectionMaker connectionMaker) {
-        this.connectionMaker = connectionMaker;
+    public UserDao() {
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection connection = connectionMaker.getConnection();
+        Connection connection = dataSource.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement("select * from userinfo where id = ?");
         preparedStatement.setString(1,id);
@@ -32,7 +36,7 @@ public class UserDao {
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection connection = connectionMaker.getConnection();
+        Connection connection = dataSource.getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement("insert into userinfo (id, name, password) VALUES (?,?,?)");
         preparedStatement.setString(1,user.getId());
